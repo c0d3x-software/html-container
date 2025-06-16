@@ -1,5 +1,12 @@
 {
-   "include": ["component","container", "parser"],
+   "include": [
+      "index.ts",
+      "polyfills",
+      "component",
+      "container",
+      "commander",
+      "tests"
+   ],
    "compilerOptions": {
       "rootDir": ".",
       "jsx": "react-jsx",

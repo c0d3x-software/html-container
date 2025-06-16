@@ -16,20 +16,6 @@ declare global {
       findAll(regex: RegExp): FindResult[]
       decodeHTML(pretty: boolean): string
    }
-
-   interface ObjectConstructor {
-      get(that: object, path: string)
-   }
-}
-
-Object.get = function (that: object, path: string) {
-   if (!path) return undefined
-
-   const [name, next] = path.split('.')
-
-   return name && next ? Object.get(that[name], next)
-      : name ? that[name] 
-      : undefined
 }
 
 String.prototype.find = function (regex) {
@@ -43,7 +29,7 @@ String.prototype.find = function (regex) {
    const first = returns[1]
    const parts = returns
 
-   return { index, found, parts, first  } 
+   return { index, found, parts, first }
 }
 
 String.prototype.findAll = function (regex) {
@@ -68,7 +54,7 @@ String.prototype.decodeHTML = function (pretty) {
       '&quot;': '"', '&amp;': '&',
       '&lt;': '<', '&gt;': '>', '&apos;': "'"
    }
-   
+
    const that = this.replace(regex, m => mapping[m]);
 
    return pretty ? pd.xml(that) : that

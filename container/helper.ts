@@ -1,4 +1,4 @@
-import '../extensions'
+import '../polyfills'
 
 export function getStackDirectories() {
    const regex = /at[^\(]+\((.+[\/\\][^\:]+)[\/\\]\w+\.\w+/gmi

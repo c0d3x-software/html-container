@@ -1,7 +1,7 @@
 import { renderToString } from "react-dom/server"
 import { Render, ParseInfo } from "./shared";
 import { getProps } from "../container";
-import '../extensions'
+import '../polyfills'
 
 export const reactRender: Render = (html: string, self: object) => {
    const replacer = (html, ref: { text: string, jsx: string}) =>

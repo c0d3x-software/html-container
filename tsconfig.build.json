@@ -1,5 +1,11 @@
 {
-   "include": ["components", "container", "parser"],
+   "include": [
+      "index.ts",
+      "polyfills",
+      "components",
+      "container",
+      "commander"
+   ],
    "compilerOptions": {
       "strict": false,
       "jsx": "react-jsx",

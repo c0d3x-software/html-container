@@ -1,7 +1,6 @@
 import { expect, test } from "bun:test";
 import { reactRender } from "./react";
 import { postest, pretest } from "../tests";
-import { JSDOM } from 'jsdom'
 import { Sample } from "../tests";
 
 test('react rendering', async function () {

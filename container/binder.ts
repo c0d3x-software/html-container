@@ -1,16 +1,16 @@
-import { interpolateHTML } from './merger';
-import { VDOM, tryEval } from "./shared";
-import { JSDOM } from "jsdom";
+import { interpolateHTML } from './merger'
+import { VDOM, tryEval } from "./shared"
+import { DOM } from "../commander"
 
 const removeTemplateTag = (html: string) => html
    .replace(/<template[^>]+?>/, '')
    .replace(/<\/template\s*>/, '')
    .replace(/<!--[^-]+-->/, '')
 
-export function virtualizeDOM(html: string) {
+export async function virtualizeDOM(html: string) {
    const root = removeTemplateTag(html)
    const wrap = `<html><head></head><body>${root}</body></html>`
-   const body = new JSDOM(wrap).window.document.body as HTMLElement
+   const body = (await DOM.intantiate(wrap)).document.body
 
    return createVDom(body)
 }

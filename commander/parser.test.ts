@@ -9,7 +9,7 @@ test('metatag transfers...', async function () {
       .template(outer, inner)
       .generate('tests/')
    
-   const html = postest(outer, resulted)
+   const html = await postest(outer, resulted)
    
    expect(html.body.innerHTML.includes('<meta')).not.toBeTrue()
    expect(html.head.innerHTML.includes('<meta')).toBeTrue()

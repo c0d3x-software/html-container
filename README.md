@@ -94,7 +94,7 @@ HTML merged using embed[src] for html, useful for microfrontend gateway.
 
 </aside>
 
-## Semantic attributes
+## Typed attributes
 
 Attributes with literals values and refererences works like in javascript.
 
@@ -106,6 +106,27 @@ Attributes with literals values and refererences works like in javascript.
 ```
 
 It supports shorthands property name
+
+## Vanilla routing
+
+The page container routing uses web standard API. But it comens with Request polyfills to match params and separates from url.
+
+```ts
+const routing = 'http://www.api.com/route/subroute/1/true/hello'
+const pattern = '/route/subroute/:id/:ok/:hi'
+const results = new Request(routing).match(pattern)
+
+// results.params = { id: 1, ok: true, hi: 'hello' }
+// results.routed = '/route/subroute'
+// results.static = false
+```
+
+Or just using resolve to recreate params as URL query strings.
+
+```ts
+const request =  new Request(routing).resolve(pattern)
+// http://www.api.com/route/subroute&id=1&ok=true&hi=hello
+```
 
 ## Two Way Data binding 
 

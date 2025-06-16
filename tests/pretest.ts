@@ -1,5 +1,5 @@
 import fs from 'fs/promises'
-import { JSDOM } from "jsdom";
+import { DOM } from '../commander';
 
 export async function pretest() {
    const outer = await fs.readFile('./tests/index.html', 'utf-8')
@@ -8,8 +8,8 @@ export async function pretest() {
    return { outer, inner }
 }
 
-export function postest(outer: string, inner: string) {
-   const { head, body } = new JSDOM(outer).window.document 
+export async function postest(outer: string, inner: string) {   
+   const { head, body } = (await DOM.intantiate(outer)).document 
    const root = body.querySelector('#root') as HTMLElement
    
    root.innerHTML = inner

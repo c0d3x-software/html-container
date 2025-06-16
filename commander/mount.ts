@@ -1,13 +1,7 @@
 import path from 'path';
-import { JSDOM } from 'jsdom'
-import { HTML } from "./shared"
+import { DOM, HTML } from "./shared"
 import { pd } from 'pretty-data'
 import * as container from '../container'
-
-declare class JSDOM {
-   constructor(htmlString: string)
-   window: { document: HTMLDocument }
-}
 
 export const isNotTemplate = innerHTML =>
    !innerHTML.trim().startsWith('<template')
@@ -30,14 +24,14 @@ export const importScript = async (html: string, base: string) => {
 export const buildTemplate = async (html: string, data: object, vdom: container.VDOM) =>
    await container.interpolate(html, data, vdom)
 
-export function getElements(html: string, query: string): HTML {
-   const HTML = new JSDOM(html).window.document
-   const root = HTML.querySelector(query) as HTMLElement
+export async function getElements(html: string, query: string): Promise<HTML> {
+   const { head, body } = (await DOM.intantiate(html)).document
+   const root = body.querySelector(query) as HTMLElement
 
    if (!root) throw 'component-page: not found element in outer HTML'
       + ` with query root '${query}'`
 
-   return { root, head: HTML.head, body: HTML.body }
+   return { root, head, body }
 }
 
 export function mountingHTML(html: HTML) {
