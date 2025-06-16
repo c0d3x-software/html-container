@@ -1,5 +1,3 @@
-<style> code * { font-style: normal !important; } </style>
-
 # HTML container
 
 A micro-lib for agnostic page container architecture to mitigate over-componentization, monolith component tree and simplistic microfrontend.
