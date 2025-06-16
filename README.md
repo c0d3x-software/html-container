@@ -21,7 +21,7 @@ import 'container-api' // loading all features
 
 HTML container allows a simple routed page with HTML+ low abstraction, that supoort components to be injected within HTML.
 
-* **HTML template**: HTML+ rendered in server-side
+* **HTML template**: HTML+ for component-in-HTML
 * **MetaTag transfer**: move metatags to head for SEO
 * **Data interpolation**: support basic data interpolation
 * **HTML merging**: HTML inclusion with `embed[src]`
