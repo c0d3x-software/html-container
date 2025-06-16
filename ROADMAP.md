@@ -13,7 +13,7 @@
 
 ## ○◔◐◕  | Pendings 
 
-- client-side data binding in onchange events
+- client-side page container
  
 ## △ | Warnings
 

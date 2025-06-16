@@ -17,16 +17,22 @@ All resources are global, all is enable with global import.
 import 'container-api' // loading all features
 ```
 
-## Conception
+## Introduction
 
-Page component enables incremental components using low code HTML extensions to preserve a more web standard design, replacing component pages role. 
+HTML container allows a simple routed page with HTML+ low abstraction, that supoort components to be injected within HTML.
 
-<img src='assets/container-page.png'>
+* **HTML template**: HTML+ rendered in server-side
+* **MetaTag transfer**: move metatags from template to head for SEO
+* **Data interpolation**: support basic data interpolation
+* **HTML merging**: HTML inclusing with server-side `embed[src]`
+* **Typed attributes**: Components called with typed props using js syntax
+* **Two-Way data binding**: basic two-way data binding with lite vDom
+* **Vanilla routing**: request object polyffils for dynamic route
 
 
-## HTML+ template
+### HTML+ template
 
-HTML template is inner HTML with small extension to support JSX embedment. Script code behind is called by template, consuming its export members.
+HTML+ is API specification for small HTML extension to component-in-HTML. in template[src] is called a script that exports the template resources.
 
 <aside cols='4:5' >
 
@@ -38,7 +44,6 @@ HTML template is inner HTML with small extension to support JSX embedment. Scrip
 ```
 
 ```ts
-// code-behind index.ts in JSX
 export { Hello } from '../components'
 export const title: string = 'title'
 const notVisibleInTemplate = 'private'
@@ -46,9 +51,9 @@ const notVisibleInTemplate = 'private'
 
 </aside>
 
-## MetaTag transfers
+### MetaTag transfers
 
-All metatags inside a template is realocated into HTML head.
+All metatags inside a template is transfered to HTML head.
 
 <aside cols='3:5'>
 
@@ -68,9 +73,9 @@ All metatags inside a template is realocated into HTML head.
 
 </aside>
 
-## Data interpolation
+### Data interpolation
 
-For interpoaltion, HTML+ uses just vanilla interpolation syntax.
+HTML+ supports data interpolation with template string syntax.
 
 ```html
 <template src='index.ts'>
@@ -79,7 +84,7 @@ For interpoaltion, HTML+ uses just vanilla interpolation syntax.
 </template>
 ```
 
-## HTML merging
+### HTML merging
 
 HTML merged using embed[src] for html, useful for microfrontend gateway.
 
@@ -94,9 +99,9 @@ HTML merged using embed[src] for html, useful for microfrontend gateway.
 
 </aside>
 
-## Typed attributes
+### Typed attributes
 
-Attributes with literals values and refererences works like in javascript.
+Javascript syntax in component attributes, allowing typed props.
 
 ```html
 <template src='index.ts'>
@@ -105,9 +110,23 @@ Attributes with literals values and refererences works like in javascript.
 </template>
 ```
 
-It supports shorthands property name
+### Two Way Data binding 
 
-## Vanilla routing
+Basic two way data binding with self object for interpolation values.
+
+```html
+<template src='index.ts'>
+   <h1>${ self.title }</h1>
+
+   <!-- this will trigger the container render -->
+   <input onchange='self.title=event.target.value' />
+
+   <!-- this will not trigger the container render -->
+   <input onchange='self.subtitle=event.target.value' />
+</template>
+```
+
+### Vanilla routing
 
 The page container routing uses web standard API. But it comens with Request polyfills to match params and separates from url.
 
@@ -124,22 +143,60 @@ const results = new Request(routing).match(pattern)
 Or just using resolve to recreate params as URL query strings.
 
 ```ts
+const routing = 'http://www.api.com/route/subroute/1/true/hello'
+const pattern = '/route/subroute/:id/:ok/:hi'
 const request =  new Request(routing).resolve(pattern)
+
 // http://www.api.com/route/subroute&id=1&ok=true&hi=hello
 ```
 
-## Two Way Data binding 
+## Inspiration
 
-Self field changes updates interpolated values using a micro vdom .
+### Conception
 
-```html
-<template src='index.ts'>
-   <h1>${ self.title }</h1>
+Page components are component-based lib constrains, that demands full componentization. However, component reusability conflits with page singularity, overfitting pages with useless overhead (like props, etc).
 
-   <!-- this will trigger the container render -->
-   <input onchange='self.title=event.target.value' />
+Page container is a web-standard approach for incremental components in a agnostc lib for component-in-HTML (JSX by default) that splits monolithic trees into smaller ones, reducing bundle size, render time and design overhead.
 
-   <!-- this will not trigger the container render -->
-   <input onchange='self.subtitle=event.target.value' />
-</template>
+<img src='assets/container-page.png'><br>
+
+Ccomponents are reserved for its original reusability purpose, meanwhile page containers serves chumks of HTML+ as HTML container for components.
+
+### Proposal
+
+The proposal is not replaces the component itself, but avoid unnecessary componentization with page components, where all the component semanticas and syntax overfits the page concept itself.
+
+The page container architecture is implemented by this html-container lib with a HTML+ specification, this specification has some HTML enhancements that allows to inject component inside HTML in web standard way, and another essential features for a routed page in a SPA application.
+
+### Integration
+
+This library could be use in any component-based frontent within a server-side render framework. The host framework is the **commander** that will handles the routing and uses library to render the HTML+ templates.
+
+```ts
+import { parser } from 'html-container'
+
+const basicHTML = /* the initial HTML with root element */
+const routeHtml = /* current routed template page */
+
+return await parser("#root")
+   .template(basicHTML, routeHtml)
+   .generate('routes/') // folder of routing pages
 ```
+
+The lib comes with reactParser by default, but is supports custom parsers to handle with any component-based libraries. 
+
+```ts
+const anotherRender: Render = (html: string, self: object): string
+```
+
+The html is the full template HTML with self object that as all the exported content in related script in `template[src]`. 
+
+The custom parser needs to follow these steps:
+
+* extract components in html string based on self exporteds components
+* extract each props in each component by its typed props syntax
+* render each component string by its library, dynamically
+* inject the rendered component in HTML ocurrence
+* return the html with those changes
+
+There is plans to nativally supportsAngular, vue and lit in future.
