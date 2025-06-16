@@ -1,0 +1,26 @@
+{
+   "include": ["component","container", "parser"],
+   "compilerOptions": {
+      "rootDir": ".",
+      "jsx": "react-jsx",
+      "types": ["bun-types"],
+      "module": "esnext",
+      "target": "esnext",
+      "moduleDetection": "auto",
+      "moduleResolution": "bundler",
+      "emitDeclarationOnly": true,
+      "declaration": true,
+      "noEmit": true,
+      "strict": true,
+      "allowJs": true,
+      "sourceMap": true,
+      "composite": true,
+      "skipLibCheck": true,
+      "noImplicitAny": false,
+      "esModuleInterop": true,
+      "downlevelIteration": true,
+      "allowImportingTsExtensions": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true
+   }
+}

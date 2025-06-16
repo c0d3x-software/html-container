@@ -1,0 +1,17 @@
+{
+   "include": ["components", "container", "parser"],
+   "compilerOptions": {
+      "strict": false,
+      "jsx": "react-jsx",
+      "noImplicitAny": false,
+      "types": ["bun-types"],
+      "outDir": "./package",
+      "module": "ESNext",
+      "target": "ESNext",
+      "declaration": true,
+      "emitDeclarationOnly": true,
+      "moduleResolution": "Bundler",
+      "esModuleInterop": true,
+      "skipLibCheck": true
+   },
+}

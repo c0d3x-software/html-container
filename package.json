@@ -1,0 +1,41 @@
+{
+   "name": "html-container",
+   "version": "0.0.3",
+   "main": "npm/index.js",
+   "types": "npm/index.d.ts",
+   "license": "MIT",
+   "description": "Page container micro-architecture for YAGNI componentization",
+   "author": "jonathan de sena ribeiro <jsenaribeiro@gmail.com>",
+   "keywords": [
+      "minimalism",
+      "auth",
+      "fetch",
+      "synch"
+   ],
+   "scripts": {
+      "build": "bun scripts.js build",
+      "minor": "bun scripts.js publish minor",
+      "major": "bun scripts.js publish major",
+      "patch": "bun scripts.js publish patch",
+      "test:debug": "bun test --inspect-brk"
+   },
+   "exports": {
+      ".": {
+         "import": "./package/index.js",
+         "types": "./package/index.d.ts"
+      }
+   },
+   "dependencies": {
+      "zlib": "latest",
+      "jsdom": "latest",
+      "react": "latest",
+      "react-dom": "latest",
+      "pretty-data": "latest"
+   },
+   "devDependencies": {
+      "bun": "latest",
+      "bun-types": "latest",
+      "typescript": "latest",
+      "@types/node": "latest"
+   }
+}
