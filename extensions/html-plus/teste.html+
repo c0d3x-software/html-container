@@ -1,0 +1,25 @@
+<template src="./example.ts">
+   <h1>${ self.title }</h1>
+   <h2 id="1" style=self.style>Aqui: ${ self.subtitle }</h2>
+   <title>${ self.title }</title>
+   <embed src='./tests/layout.html' />
+   <script> const reference = { sample:1 } </script>   
+   
+   <Sample number=1 string="ok" boolean=true 
+      array=[1,2,3] object={ name:'john', age:30 }
+      reference=obj />
+   
+   <input value=self.title oninput="self.title=event.target.value">
+   <input oninput="self.subtitle=event.target.value">
+   <input oninput="self.style=event.target.value">
+
+   <meta name="description" content="Sample page..." />
+
+   <button onclick="onClick()">OK</button>
+
+   <script>
+      function onClick() {
+         alert('clicked!');
+      }
+   </script>
+</template>

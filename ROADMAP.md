@@ -10,10 +10,12 @@
 - **semantic attributes**: use javascript syntax to allow simple typed attribute in component props
 - **two way data binding**: low code and lite two-way data binding for page container interpolations
 - **Request routing**: Request polyfiils to convert dynamic routes in URL query strings
+- **HTML+ extension**: HTML+ extension for vscode
 
 ## ○◔◐◕  | Pendings 
 
 - client-side page container
+- CSS component with functions
  
 ## △ | Warnings
 

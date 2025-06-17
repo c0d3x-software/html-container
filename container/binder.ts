@@ -1,7 +1,7 @@
 import { interpolateHTML } from './merger'
 import { VARG, VDOM, tryEval, tryParse } from "./shared"
 import { DOM } from "../commander"
-import '../polyfills'
+import '../extensions/polyfills'
 
 const removeTemplateTag = (html: string) => html
    .replace(/<template[^>]+?>/, '')

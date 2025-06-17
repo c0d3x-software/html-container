@@ -1,5 +1,5 @@
 import { AttributeInfo, tryEval, tryParse } from "./shared"
-import '../polyfills'
+import '../extensions/polyfills'
 
 const SELF_CLOSED_JSX_RGX = /<([A-Z]+?\w+)([^\/]+?)\/>/gm
 const JSX_RGX = /<([A-Z]+?\w+)([^>]*?)>([^<]*?)<\/[A-Z]+?[^>]+?>/gm

@@ -1,7 +1,7 @@
 /// <reference lib='dom' />
 /// <reference lib='esnext' />
 
-import { tryParse } from "../container"
+import { tryParse } from "../../container"
 
 declare global {
    interface Route {

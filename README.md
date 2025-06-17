@@ -133,6 +133,24 @@ const request =  new Request(routing).resolve(pattern)
 // request.route = /route/subroute&id=1&ok=true&hi=hello
 ```
 
+### 2.8 CSS component
+
+CSS-only components supported with functions for easy componentization. After transpiled the arguments, it works just pure CSS in HTML (`experimental`).
+
+```css
+grid(cols) { 
+   display: grid;
+   grid-template-columns: ${cols}; 
+}
+```
+
+```html
+<template css='./styles.css'>
+   <div style='display:grid; grid-template-columns:1fr 1fr'>...</div>
+   <grid cols='1fr 1fr'>...</grid> <!-- css component alternative -->
+</template>
+```
+
 ## 3. Inspiration
 
 Here some motivation and explationations to what is html-container, how it works and what kind of problem it resolves.

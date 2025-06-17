@@ -1,2 +1,2 @@
 export * from './commander'
-import './polyfills'
+import './extensions/polyfills'
