@@ -13,4 +13,6 @@ test('metatag transfers...', async function () {
    
    expect(html.body.innerHTML.includes('<meta')).not.toBeTrue()
    expect(html.head.innerHTML.includes('<meta')).toBeTrue()
+
+   console.log(resulted)
 })

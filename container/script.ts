@@ -21,21 +21,37 @@ export function scriptfy(html: string, vdom: VDOM, data: object) {
          get(refer,field) { return refer[field] },
          set(refer,field,value) {
             refer[field]=value;
+
+            console.log(vdom)
             
-            const items = Object.entries(vdom)
+            const dataBinds = Object.entries(vdom)
                .filter(([k,v]) => v.binds
                   .some(x => x.includes('self.' + field)));
 
-            if (!items?.length) return true;
-
-            for (const [path, data] of items) {
+            for (const [path, data] of dataBinds) {
                const node = document.querySelector(path);
                if (!node) continue;
+
                for (const bind of data.binds) {
                   const full = data.inner;
                   const text = node.innerText;
                   const done = full.replace(bind, value);
                   node.innerText = done;
+               }
+            }
+
+            const attrBinds = Object.entries(vdom)
+               .filter(([k,v]) => v.attrs
+                  .some(x => x.value.includes('self.' + field)));
+
+            for (const [path, data] of attrBinds) {
+               console.log({path, data}, data.attrs)
+               const node = document.querySelector(path);
+               if (!node) continue;
+
+               for (const attr of data.attrs) {
+                  console.log(attr.field, value)
+                  node.setAttribute(attr.field, value)
                }
             }
                

@@ -39,7 +39,7 @@ HTML+ is API specification for small HTML extension to component-in-HTML. in tem
 ```html
 <template src='index.ts'>
    <h1>${ self.title }</h1> 
-   <Hello name='world '/>
+   <Hello name='world'/>
 </template>
 ```
 
@@ -102,8 +102,9 @@ Javascript syntax in component attributes, allowing typed props.
 
 ```html
 <template src='index.ts'>
-   <Sample number=1 string='' boolean=true 
-      object={} array=[] reference=self.variable />
+   <Hello number=1 string='' 
+      boolean=true object={} 
+      array=[] refer=self.obj />
 </template>
 ```
 

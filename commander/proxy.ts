@@ -1,5 +1,3 @@
-import { Interpolation } from "../container"
-
 type Callback = (field: string) => void
 
 export function proxify(reference: object, callback: Callback) {

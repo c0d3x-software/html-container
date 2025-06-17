@@ -12,7 +12,7 @@ export class DOM {
    private constructor(public document: HTMLDocument) {}
 
    public static async intantiate(html: string) {
-      if (globalThis.window.document) 
+      if (globalThis?.window?.document) 
          return new DOM(window.document)
 
       const JSDOM = await import('jsdom').then(x => x.JSDOM)

@@ -9,8 +9,7 @@
 
 <body>
    <h1>My custom title</h1>
-   <h2>Aqui: </h2>
-   <title>My custom title</title>
+   <h2 id="1" style="color:red;">Aqui: </h2>
    <h3>layout HTML</h3>
    <script> const reference = { sample: 1 } </script>
    <ul>
@@ -21,10 +20,16 @@
       <li>boolean: true</li>
       <li>reference: </li>
    </ul>
+   <input value="My custom title" oninput="self.title=event.target.value">
    <input oninput="self.subtitle=event.target.value">
-   <input oninput="self.another=event.target.value">
-   <meta name="description" content="Sample page...">
-   <script>const ___ = 'H4sIAAAAAAAACrVUwYrbMBC95yumorAy9Rp2jwnZUnouLXRvIQfZHm/UypJXGqcJIf9eRq4hEt10oa1vGr339N5o5AXEr3E2ELSKFKzhJEiTQbEE8ekIzRjI9TCVzqvFJWHfuj4Satce4QF2d2IJJ6GtRc/0tycIaLoqkuEsShCDd0Ng1LkEUWvb8mKTI8U2bv9SvU9VPzyPegkzI4z1a+UT8OUJc95/bR2wr7FNhRMlEXzDxc1H7ZvRKL8VifilVmi8HigVm67BY4cebYN8FxBUPxhc3l0znehG/DWTduzrqT779FtGBPLaPuV1FnYGlc03QCjv1TEvg3D1N2wor4OYc+FrWzRFgQfQdhhpaWl367pbOg4o74prCZ2NjL89Z0B5/1/O6ZHU1RtSfd6kMk4Hof3DafOThifjamUedzpUPM+wBos/4It3h6PkP0MJp19IBiPJeD1lp9G0BZzAI43eTsO4idUtnMuZAhBSSrlXZsTiUhQgYa8jYpXsJ4tp+jVhH2ANn+MUVWjJawyS/01FAgeAqtOG0Eu5+V7utwWsH2BfxWbkSAYH16M8MOhQaduYscUgb+Jjv4F3MCUvitUiIesO5Jto6n1l0D7Rrph7Q57zJOjOeZBTkM2gaFfGv/AWXDcFyxs0xwbrWn7vrWvGHi1VzyP641c02JDzkqWKVc6M1phYsAhpm7c3NcSNYSPsaOpS7ubSUDcaw4YYHMc0l56hBIQH4vlyLU7QRzzQS3CC1lmOygdUHgejGpRsp4Rphn7HTLVjo2weFuC8eGkVv2w05zu81Jk55+Inn48ww0sHAAA='; const decompressFromString = b => new Response(new Blob([Uint8Array.from(atob(b), c => c.charCodeAt(0))]).stream().pipeThrough(new DecompressionStream('gzip'))).text(); decompressFromString(___).then(eval);</script>
+   <input oninput="self.style=event.target.value">
+   <button onclick="onClick()">OK</button>
+   <script>
+      function onClick() {
+         alert('clicked!')
+      }
+   </script>
+   <script>const ___ = 'H4sIAAAAAAAACr1Uy27bMBC8+yu2RIFIqCIgPTpQgLTnogWam+ODLK1itjSpkEvXhqB/L0iKgETEyaEPXQyRs7sz41mtwD+NkoagramGCgZm6CyQrWFgjRJKszUwjS0bC2DEyV+xL2dorCF1gHA03q7mvY6tOvheO9We4Q72N74flxJ9v/cDGBRd6YthZAWwXqveOJSbs+OydS+bFMm2BbCaSPvbrcdOIz4uR9w/W76GWG7s7qVZjLcOu/nMdWNFrbfuNuqfH79MKnZNeQ2s4yh869CsAHashcW5dn8T+GjsAmnwh9VjCnpkbJyLjf/Dv7XU1IdeINwBl72ltaT9tequ6dxjdpMvpy9djVoTY5X0jV6z9pKNoeNLNkYVCxs9KtoYQdHGmFV4EmpXi4c9N6VDQQUSf8E3rU7nzG1DAcOEdGCkzA8oPKkcBtBIVkvwpxt/uoWxiCUAZllSeFb5vCnAorryiNvVAuA2SgkshXrK3F7li9sUOi3yJ2coVPB19wMbKlGS5mjS+vCUHReEOss2P4vjNofqDo6l/0dSpAMbdcDs5ECnkstG2BZNduVdvoIPEMzJ80REpzRkgd6mr2lfeJZbUF2k25rUmSgIpGoRKmhVYw8oqXy2qM/fUWBDSmeuXX6bVvIOsneuMHdNiMvU14SV0xvZBPEpnTmjzgrhGDmw34F0foQSEJ7IJUu1GKAPeKJLcIJWSafVDSg19qJuMHN0ipDpVKh/lr29UxJTIIyr5VuaHEPgNu9Pk1P69X0rOV7M38lPJH0pP3F3hlhH9Rh+AtVU1f8K3eR3DN1E5lLooozMwcrwPZkicSkRBumeSPOdJXyrLM1H8pZ+aKYvH2k7z1msGfPfppHtBlkIAAA='; const decompressFromString = b => new Response(new Blob([Uint8Array.from(atob(b), c => c.charCodeAt(0))]).stream().pipeThrough(new DecompressionStream('gzip'))).text(); decompressFromString(___).then(eval);</script>
 </body>
 
 </html>

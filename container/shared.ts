@@ -1,12 +1,3 @@
-export interface Interpolation {
-   key: string
-   get: string
-}
-
-export interface Interpolate extends Interpolation {
-   set: any
-}
-
 export interface AttributeInfo {
    name: string
    data: string
@@ -23,10 +14,16 @@ export function tryEval(value: string) {
    catch { return undefined }
 }
 
+export interface VARG {
+   field: string
+   value: string
+   refer: string
+}
+
 export interface VTAG {
    inner: string
-   outer: string
    props: object
+   attrs: VARG[]   
    binds: string[]
 }
 export interface VDOM {
