@@ -2,176 +2,143 @@
 
 A micro-lib for agnostic page container architecture to mitigate over-componentization, monolith component tree and simplistic microfrontend.
 
-## 1. Installation
+* microfrontend
+* microcomponents
+
+## Installation
 
 ```
-$ npm i container-page
-$ bun add container-page
+$ npm i html-container
+$ bun add html-container
 ```
 
-All resources are global, all is enable with global import.
+## Micro-frontends
 
-```ts
-import 'container-api' // loading all features
-```
+HTML container supports easy mifro-frontent using web standard slots with extended features, wnabling an agnostic, low code and easy-to-use microfrontend platform.
 
-## 2. Introduction
+### Full stack support
 
-<img src='assets/container-page.png'><br>
+Client-sider support with script loading and parser to server-side rendering.
 
-HTML container allows a simple routed page with HTML+ low abstraction, that supoort components to be injected within HTML.
-
-* **HTML template**: HTML+ for component-in-HTML
-* **MetaTag transfer**: move metatags to head for SEO
-* **Data interpolation**: support basic data interpolation
-* **HTML merging**: HTML inclusion with `embed[src]`
-* **Typed attributes**: Components typed props using js syntax
-* **Two-Way data binding**: two-way data binding + lite vDom
-* **Vanilla routing**: request polyffils for dynamic route
-
-
-### 2.1 HTML+ template
-
-HTML+ is API specification for small HTML extension to component-in-HTML. in template[src] is called a script that exports the template resources.
-
-<aside cols='4:5' >
+<aside cols='2'>
 
 ```html
-<template src='index.ts'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>HTML Container</title>   
+   <script src='html+.min.js'></script>
+</head>
+<body>etc...</body>
+</html>
+```
+
+```ts
+'use server'
+
+import { parser } from 'html-container'
+
+export function parseHtmlPlus(html: string) {
+   return await parser(html).build('/build')
+}
+```
+
+</aside>
+
+### Sloting, routing and fallbacks
+
+HTML+ slot supports merged frontends withwith loading content as fallback. It supports declarative static and dynamic routes.
+
+```html
+<body>
+   <slot src='http://app.vue.com'>loading...</slot>
+   <slot route='/' src='http://app.react.com'>loading...</slot>   
+   <slot route='/user/:id' src='http://app.angular.com'>loading...</slot>
+</body>
+```
+
+### Renderig federate component
+
+An exposed default component could be reder by slot in client-side.
+
+```html
+<slot type='jsx' src='http://app.react.com/assets/hello.js'>loading...</slot>
+```
+
+### Metatags reallocation
+
+All metatag and head content in slot is dynamically allocated to html page. But the SEO only impacted with this metatag reallocated in server by server-side html-container.
+
+
+## Micro-components architecture
+
+HTML container enables a server-side only micro-component architecture that breaks monolith component in smaller components by HTML+ template containers. 
+
+### Inner slots
+
+Slot is also supported within HTML+ templates.
+
+<aside cols='2'>
+
+```html
+<template route='/admin' src='index.ts'>
+   <slot src='./layouts/header.html'>loading...</slot>
+   <slot src='http://external.html'>loading...</slot>
+</template>
+```
+
+### Template container
+
+JSX-in-HTML with interpolation, literal attributes with self as container context.
+
+<aside cols='2' >
+
+```html
+<template type='jsx' src='index.ts'>
    <h1>${ self.title }</h1> 
-   <Hello name='world'/>
+   <Hello number=1 string='' object={}
+      boolean=true array=[] refer=self.obj />
 </template>
 ```
 
 ```ts
 export { Hello } from '../components'
 export const title: string = 'title'
+export const obj = 'reference...'
 const notVisibleInTemplate = 'private'
 ```
 
 </aside>
 
-### 2.2 MetaTag transfers
 
-All metatags inside a template is transfered to HTML head.
+### Two Way Data binding 
 
-<aside cols='3:5'>
-
-```html
-<template><title>Title</title><h1>Subtitle</h1></template>
-```
+Two way data binding with micro virtual DOM with self object and interpolated values.
 
 ```html
-<html>
-   <head><title>Title</title></head>
-   <body><h1>Subtitle</h1></body>
-</html>
-```
-
-</aside>
-
-### 2.3 Data interpolation
-
-HTML+ supports data interpolation with template string syntax.
-
-```html
-<template src='index.ts'>
-   <h1>${ self.title }</h1> 
-   <h2>${ self.subtitle }</h2>
-</template>
-```
-
-### 2.4 HTML merging
-
-HTML merged using embed[src] for html, useful for microfrontend gateway.
-
-<aside cols='2'>
-
-```html
-<template src='index.ts'>
-   <embed src='./layouts/header.html' />
-   <embed src='http://external.html' />
-</template>
-```
-
-</aside>
-
-### 2.5 Typed attributes
-
-Javascript syntax in component attributes, allowing typed props.
-
-```html
-<template src='index.ts'>
-   <Hello number=1 string='' 
-      boolean=true object={} 
-      array=[] refer=self.obj />
-</template>
-```
-
-### 2.6 Two Way Data binding 
-
-Basic two way data binding with self object for interpolation values.
-
-```html
-<template src='index.ts'>
+<template type='tsx' src='index.ts'>
    <h1>${ self.title }</h1>
    <input onchange='self.title=event.target.value' />
 </template>
 ```
 
-### 2.7 Vanilla routing
+### Module federation
 
-Request polyfills to match dynamic route params from url.
-
-```ts
-const pattern = '/route/subroute/:id/:ok/:hi'
-const routing = 'http://ok.com/route/subroute/1/true/hello'
-const matched = new Request(routing).match(pattern)
-const request =  new Request(routing).resolve(pattern)
-
-// matched.params = { id: 1, ok: true, hi: 'hello' }
-// request.route = /route/subroute&id=1&ok=true&hi=hello
-```
-
-### 2.8 CSS component
-
-CSS-only components supported with functions for easy componentization. After transpiled the arguments, it works just pure CSS in HTML (`experimental`).
-
-```css
-grid(cols) { 
-   display: grid;
-   grid-template-columns: ${cols}; 
-}
-```
+You could federate your component, with zero configuration, just placing all exported component in the assets ou public folder (file server) and importing it by HTML+ template.
 
 ```html
-<template css='./styles.css'>
-   <div style='display:grid; grid-template-columns:1fr 1fr'>...</div>
-   <grid cols='1fr 1fr'>...</grid> <!-- css component alternative -->
+<template type='tsx' src='http://sample.com/assets/components.js'>
+   <h1>${ self.title }</h1>
+   <ItWorks />
+   <Hello >
+   <Hi />
 </template>
 ```
 
-## 3. Inspiration
+### Server-side parser
 
-Here some motivation and explationations to what is html-container, how it works and what kind of problem it resolves.
-
-### 3.1 Proposal
-
-The proposal is not replaces the component itself, but avoid unnecessary componentization, since component overfits the page concept itself.
-
-The html-container lib defines a HTML+ specification with some HTML enhancements that allows to inject component directally inside HTML+, and also another essential features for a routed page, but not overlaps components.
-
-### 3.2 Conception
-
-Page components are component-based lib constrains, that demands full componentization. However, component reusability conflits with page singularity, overfitting pages with useless overhead (like props, etc).
-
-The html-container is a web-standard approach for incremental components in a agnostc lib for component-in-HTML (JSX by default) that splits monolithic trees into smaller ones, reducing bundle size, render time and design overhead.
-
-Ccomponents are reserved for its original reusability purpose, meanwhile page containers serves chumks of HTML+ as HTML container for components.
-
-### 3.3 Integration
-
-This library could be use in any component-based frontent within a server-side render framework. The host framework is the **commander** that will handles the routing and uses library to render the HTML+ templates.
+HTML+ template containers are rendered in server-side only with minimal partial hydration for its two-way data binding injected in HTML. It could be use with any react meta framework as next.js, gatsby, astro, remix, fresh, and so on.
 
 ```ts
 import { parser } from 'html-container'
@@ -181,23 +148,6 @@ const routeHtml = /* current routed template page */
 
 return await parser("#root")
    .template(basicHTML, routeHtml)
-   .generate('routes/') // folder of routing pages
+   .generate('routes/') // routing page folder
 ```
 
-The lib comes with reactParser by default, but is supports custom parsers to handle with any component-based libraries. 
-
-```ts
-const anotherRender: Render = (html: string, self: object): string
-```
-
-The html is the full template HTML with self object with all the exported content from script related to `template[src]`. 
-
-The custom parser needs to follow these steps:
-
-* extract components in html string based on self exporteds components
-* extract each props in each component by its typed props syntax
-* render each component string by its library, dynamically
-* inject the rendered component in HTML ocurrence
-* return the html with those changes
-
-**Obs.: native supports to Angular, vue and lit in future.**

@@ -1,0 +1,312 @@
+{
+	"information_for_contributors": [
+		"This file has been converted from https://github.com/textmate/html.tmbundle/blob/master/Syntaxes/HTML.plist",
+		"If you want to provide a fix or improvement, please create a pull request against the original repository.",
+		"Once accepted there, we are happy to receive an update request."
+	],
+	"version": "https://github.com/textmate/html.tmbundle/commit/0c3d5ee54de3a993f747f54186b73a4d2d3c44a2",
+	"name": "HTML",
+	"scopeName": "text.html.basic",
+	"injections": {
+		"R:text.html - (comment.block, text.html meta.embedded, meta.tag.*.*.html, meta.tag.*.*.*.html, meta.tag.*.*.*.*.html)": {
+			"comment": "Uses R: to ensure this matches after any other injections.",
+			"patterns": [{ "match": "<", "name": "invalid.illegal.bad-angle-bracket.html" }]
+		}
+	},
+	"patterns": [
+		{ "include": "#xml-processing" },
+		{ "include": "#comment" },
+		{ "include": "#doctype" },
+		{ "include": "#scripting" },
+		{ "include": "#tags" },      
+      { "include": "#wildcard-tag" }
+	],
+	"repository": {
+		"comment": {
+			"patterns": [
+				{
+					"begin": "",
+					"name": "comment.block.html"
+				}
+			]
+		},
+		"doctype": {
+			"begin": "(?i)(<!DOCTYPE)",
+			"beginCaptures": {
+				"1": { "name": "meta.tag.metadata.doctype.html" }
+			},
+			"end": "(>)",
+			"endCaptures": {
+				"1": { "name": "meta.tag.metadata.doctype.html" }
+			},
+			"name": "meta.tag.metadata.doctype.html",
+			"patterns": [{ "match": "\"[^\"]*\"", "name": "string.quoted.double.html" }]
+		},
+		"scripting": {
+			"patterns": [
+				{ "include": "#script-tags" },
+				{ "include": "#style-tags" }
+			]
+		},
+		"script-tags": {
+			"comment": "This is duplicated in a few places to work around Atom's injection system.",
+			"patterns": [
+				{
+					"begin": "(?i)(<)(script)\\b(?![^>]*/>)",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.script.html" }
+					},
+					"end": "(?i)(</)(script)(>)",
+					"endCaptures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.script.html" },
+						"3": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"name": "source.js.embedded.html",
+					"patterns": [
+						{
+							"begin": "(?<!/)(>)",
+							"beginCaptures": {
+								"1": { "name": "punctuation.definition.tag.end.html" }
+							},
+							"contentName": "source.js",
+							"end": "(?=</script>)",
+							"patterns": [{ "include": "source.js" }]
+						},
+						{ "include": "#tag-stuff" }
+					]
+				}
+			]
+		},
+		"style-tags": {
+			"comment": "This is duplicated in a few places to work around Atom's injection system.",
+			"patterns": [
+				{
+					"begin": "(?i)(<)(style)\\b(?![^>]*/>)",
+					"captures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.style.html" }
+					},
+					"end": "(?i)(</)(style)(>)",
+					"endCaptures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.style.html" },
+						"3": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"name": "source.css.embedded.html",
+					"patterns": [
+						{
+							"begin": "(?<!/)(>)",
+							"beginCaptures": {
+								"1": { "name": "punctuation.definition.tag.end.html" }
+							},
+							"contentName": "source.css",
+							"end": "(?=</style>)",
+							"patterns": [{ "include": "source.css" }]
+						},
+						{ "include": "#tag-stuff" }
+					]
+				}
+			]
+		},
+		"tags": {
+			"patterns": [
+				{ "include": "#tag-generic-with-arguments" },
+				{ "include": "#tag-generic-with-no-arguments" },
+				{ "include": "#tag-custom-shorthand" }
+			]
+		},
+		"tag-generic-with-arguments": {
+			"comment": "Matches <tag attribute=\"value\">",
+			"patterns": [
+				{
+					"begin": "(<)([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*:[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*|[a-zA-Z_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)(?!-|>)(?=\\s|/?>)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.html" }
+					},
+					"end": "(/)?>",
+					"endCaptures": {
+						"1": { "name": "punctuation.definition.tag.end.html" },
+						"0": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"name": "meta.tag.other.html",
+					"patterns": [{ "include": "#tag-stuff" }]
+				}
+			]
+		},
+		"tag-generic-with-no-arguments": {
+			"comment": "Matches <tag>",
+			"patterns": [
+				{
+					"begin": "(</?)([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*:[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*|[a-zA-Z_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)(?=[^>]*>)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.html" }
+					},
+					"end": ">",
+					"endCaptures": {
+						"0": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"name": "meta.tag.other.html"
+				}
+			]
+		},
+		"tag-custom-shorthand": {
+			"comment": "Allows custom tags to be specified without their closing tag, for example Vue or Angular directives.",
+			"patterns": [
+				{
+					"begin": "(</?)([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*-[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*)(?=\\s|/?>)",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.tag.begin.html" },
+						"2": { "name": "entity.name.tag.html" }
+					},
+					"end": ">",
+					"endCaptures": {
+						"0": { "name": "punctuation.definition.tag.end.html" }
+					},
+					"name": "meta.tag.custom.end.html",
+					"patterns": [{ "include": "#tag-stuff" }]
+				}
+			]
+		},
+		"tag-stuff": {
+			"patterns": [
+				{ "include": "#script-tags" },
+				{ "include": "#style-tags" },
+				{ "include": "#attributes" },
+				{ "include": "#embedded-code" }
+			]
+		},
+		"attributes": {
+			"patterns": [
+				{
+					"comment": "attribute-name = \"attribute-value\"",
+					"match": "\\b([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*:[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*|[a-zA-Z_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)\\s*(=)\\s*(\"[^\"]*\"|'[^']*')",
+					"captures": {
+						"1": { "name": "entity.other.attribute-name.html" },
+						"2": { "name": "punctuation.separator.key-value.html" },
+						"3": { "name": "string.quoted.double.html" }
+					},
+					"name": "meta.attribute.html"
+				},
+				{
+					"comment": "attribute-name = unquoted-attribute-value",
+					"match": "\\b([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*:[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*|[a-zA-Z_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)\\s*(=)\\s*([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)",
+					"captures": {
+						"1": { "name": "entity.other.attribute-name.html" },
+						"2": { "name": "punctuation.separator.key-value.html" },
+						"3": { "name": "string.unquoted.html" }
+					},
+					"name": "meta.attribute.html"
+				},
+				{
+					"comment": "attribute-name (no value)",
+					"match": "\\b([a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*:[a-zA-Z0-9_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]*|[a-zA-Z_\\x{00B7}\\x{00C0}-\\x{00D6}\\x{00D8}-\\x{00F6}\\x{00F8}-\\x{037D}\\x{037F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{203F}-\\x{2040}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}][\\\\-.0-9_a-zA-Z\\\\x{00B7}\\\\x{00C0}-\\\\x{00D6}\\\\x{00D8}-\\\\x{00F6}\\\\x{00F8}-\\\\x{037D}\\\\x{037F}-\\\\x{1FFF}\\\\x{200C}-\\\\x{200D}\\\\x{203F}-\\\\x{2040}\\\\x{2070}-\\\\x{218F}\\\\x{2C00}-\\\\x{2FEF}\\\\x{3001}-\\\\x{D7FF}\\\\x{F900}-\\\\x{FDCF}\\\\x{FDF0}-\\\\x{FFFD}\\\\x{10000}-\\\\x{EFFFF}]*)(?=\\s|/?>)",
+					"captures": {
+						"1": { "name": "entity.other.attribute-name.html" }
+					},
+					"name": "meta.attribute.html"
+				}
+			]
+		},
+		"embedded-code": {
+			"patterns": [
+				{
+					"begin": "(?<=^|>)\\s*(<%)",
+					"captures": {
+						"1": { "name": "punctuation.section.embedded.begin.html" }
+					},
+					"contentName": "source.ruby",
+					"end": "(%)>\\s*",
+					"name": "source.ruby.embedded.html",
+					"patterns": [{ "include": "source.ruby" }]
+				},
+				{
+					"begin": "(?<=^|>)\\s*(<?php)",
+					"captures": {
+						"1": { "name": "punctuation.section.embedded.begin.html" }
+					},
+					"contentName": "source.php",
+					"end": "((?<!\\?)(?>\\?>))\\s*",
+					"name": "source.php.embedded.html",
+					"patterns": [{ "include": "source.php" }]
+				}
+			]
+		},
+		"xml-processing": {
+			"patterns": [
+				{
+					"begin": "(<\\?xml)",
+					"beginCaptures": {
+						"1": { "name": "meta.tag.metadata.xml.html" }
+					},
+					"end": "(\\?>)",
+					"endCaptures": {
+						"1": { "name": "meta.tag.metadata.xml.html" }
+					},
+					"name": "meta.tag.metadata.xml.html",
+					"patterns": [{ "include": "#tag-stuff" }]
+				}
+			]
+		},      
+      "wildcard-tag": {
+         "patterns": [
+            {
+               "name": "meta.tag.wildcard.start.html",
+               "begin": "(<)(\\*)(?=\\s|\\/|>)",
+               "beginCaptures": {
+               "1": { "name": "punctuation.definition.tag.begin.html" },
+               "2": { "name": "entity.name.tag.wildcard.html" }
+               },
+               "end": "(\\/?>)",
+               "endCaptures": {
+               "1": { "name": "punctuation.definition.tag.end.html" }
+               },
+               "patterns": [
+               {
+                  "name": "entity.other.attribute-name.html",
+                  "match": "\\b[\\w-]+(?=\\s*=)"
+               },
+               {
+                  "name": "string.quoted.double.html",
+                  "begin": "\"",
+                  "end": "\"",
+                  "beginCaptures": {
+                     "0": { "name": "punctuation.definition.string.begin.html" }
+                  },
+                  "endCaptures": {
+                     "0": { "name": "punctuation.definition.string.end.html" }
+                  }
+               },
+               {
+                  "name": "string.quoted.single.html",
+                  "begin": "'",
+                  "end": "'",
+                  "beginCaptures": {
+                     "0": { "name": "punctuation.definition.string.begin.html" }
+                  },
+                  "endCaptures": {
+                     "0": { "name": "punctuation.definition.string.end.html" }
+                  }
+               },
+               {
+                  "name": "string.unquoted.html",
+                  "match": "(?<=\\=)([^\\s\"'<>`]+)"
+               }
+               ]
+            },
+            {
+               "name": "meta.tag.wildcard.end.html",
+               "match": "(</)(\\*)(>)",
+               "captures": {
+               "1": { "name": "punctuation.definition.tag.begin.html" },
+               "2": { "name": "entity.name.tag.wildcard.html" },
+               "3": { "name": "punctuation.definition.tag.end.html" }
+               }
+            }
+         ]
+         }
+	}
+}

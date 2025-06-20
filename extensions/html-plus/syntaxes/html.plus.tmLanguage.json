@@ -1,0 +1,38 @@
+{
+   "scopeName": "html.plus.injection",
+   "injectionSelector": "L:text.html.basic",
+   "patterns": [
+     {
+       "name": "meta.tag.wildcard.html",
+       "begin": "(<)(\\*)(?=\\s|/|>)",
+       "beginCaptures": {
+         "1": { "name": "punctuation.definition.tag.begin.html" },
+         "2": { "name": "entity.name.tag.html" }
+       },
+       "end": "(/?>)",
+       "endCaptures": {
+         "1": { "name": "punctuation.definition.tag.end.html" }
+       },
+       "patterns": [
+         {
+           "name": "entity.other.attribute-name.html",
+           "match": "\\b[\\w-]+(?=\\s*=)"
+         },
+         {
+           "name": "string.unquoted.html",
+           "match": "(?<=\\=)([^\\s\"'<>`]+)"
+         }
+       ]
+     },
+     {
+       "name": "meta.tag.wildcard.end.html",
+       "match": "(</)(\\*)(>)",
+       "captures": {
+         "1": { "name": "punctuation.definition.tag.begin.html" },
+         "2": { "name": "entity.name.tag.html" },
+         "3": { "name": "punctuation.definition.tag.end.html" }
+       }
+     }
+   ]
+ }
+ 

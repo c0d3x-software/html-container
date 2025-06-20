@@ -1,52 +1,36 @@
 {
-  "name": "html-plus",
-  "displayName": "html-plus",
-  "description": "hml extensions for page container architecture",
-  "version": "0.0.1",
-  "engines": {"vscode": "^1.101.0"},
-  "categories": ["Other"],
-  "activationEvents": [],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "html-plus.helloWorld",
-        "title": "Hello World"
+   "name": "html-wildcard-support",
+   "displayName": "HTML+ Support",
+   "description": "Colore arquivos .html+ como HTML padrão",
+   "version": "0.0.1",
+   "publisher": "jonathan",
+   "engines": {
+     "vscode": "^1.50.0"
+   },
+   "categories": ["Programming Languages"],
+   "main": "./extension.js",
+   "activationEvents": ["onLanguage:htmlplus"],
+   "contributes": {
+     "languages": [
+       {
+         "id": "htmlplus",
+         "aliases": ["HTML+"],
+         "extensions": [".html+"],
+         "configuration": "./language-configuration.json"
+       }
+     ],
+     "grammars": [
+       {
+         "language": "htmlplus",
+         "scopeName": "text.html.plus", 
+         "path": "./syntaxes/html-plus.tmLanguage.json"
+       },
+       {
+         "scopeName": "html.plus.injection",
+         "path": "./syntaxes/html.plus.tmLanguage.json",
+         "injectTo": ["text.html.basic"]
       }
-    ],  
-    "languages": [
-      {
-        "id": "htmlplus",
-        "aliases": ["HTML+"],
-        "extensions": [".html+"],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "htmlplus",
-        "scopeName": "text.html.plus",
-        "path": "./syntaxes/html+.tmLanguage.jsonc"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.101.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2"
-  }
-}
+     ]
+   }
+ }
+ 
